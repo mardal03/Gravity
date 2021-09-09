@@ -20,21 +20,31 @@ blue = (0,0,255)
 black = (0,0,0)
 white = (255,255,255)
 
-speed = 10
-x = 0 - 15
-y = 200
+vel = 5
+as_x = 0 - 15
+as_y = 100
+
+sun_x = 250
+sun_y = 250
 
 def draw():
-    pygame.draw.circle(window, red, (250,250), 15)
+    pygame.draw.circle(window, red, (sun_x, sun_y), 15)
+    pygame.draw.circle(window, blue, (as_x, as_y), 15)
     pygame.display.update()
-    window.fill((0,0,0))
-
-#def object():
-    #speed = 5
-    #x = (0 - 15)
-    #y = 200
-    #pygame.draw.circle(window, blue, (x, y), 15)
+    window.fill(black)
     
+def gravity():
+    if as_x < sun_x:
+        dis = math.sqrt(((sun_x-as_x)*(sun_x-as_x))+((sun_y-as_y)*(sun_y-as_y)))
+    elif as_x > sun_x:
+        dis = math.sqrt(((as_x-sun_x)*(as_x-sun_x))+((sun_y-as_y)*(sun_y-as_y)))
+    else:
+        dis = sun_y-as_y
+    print(dis)
+    
+    if dis < 200:
+        pass
+
 run = True
 while run:
     keys = pygame.key.get_pressed()
@@ -43,15 +53,9 @@ while run:
         if event.type == pygame.QUIT:
             run = False
             
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                x += speed
+    #if keys[pygame.K_SPACE]:
+    as_x += vel
 
-    pygame.draw.circle(window, blue, (x, y), 15)
-    pygame.draw.circle(window, red, (250,250), 15)
-    pygame.display.update()
-    window.fill((0,0,0))
-    
-    
-
+    draw()
+    gravity()
 pygame.quit()
