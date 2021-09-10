@@ -33,17 +33,16 @@ def draw():
     pygame.display.update()
     window.fill(black)
     
-def gravity():
+def gravity(as_y):
     if as_x < sun_x:
         dis = math.sqrt(((sun_x-as_x)*(sun_x-as_x))+((sun_y-as_y)*(sun_y-as_y)))
-    elif as_x > sun_x:
+    if as_x > sun_x:
         dis = math.sqrt(((as_x-sun_x)*(as_x-sun_x))+((sun_y-as_y)*(sun_y-as_y)))
-    else:
+    if as_x == sun_x:
         dis = sun_y-as_y
-    print(dis)
     
-    if dis < 200:
-        pass
+    
+    return dis
 
 run = True
 while run:
@@ -55,7 +54,12 @@ while run:
             
     #if keys[pygame.K_SPACE]:
     as_x += vel
+    
+    dis = gravity(as_y)
+    
+    if dis <= 200:
+        as_y += int(0.01 * dis)
 
     draw()
-    gravity()
+    gravity(as_y)
 pygame.quit()
